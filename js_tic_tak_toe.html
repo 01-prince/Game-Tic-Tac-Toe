@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tak Toe Game</title>
+    <style>
+        h1{
+            text-align: center;
+            color: rgb(0, 8, 255);
+        }
+        table{
+            height: 300px;
+            width: 300px;
+            border: 1px solid black;
+            margin: 0px auto;
+        }
+        table tr {
+            width: 100px;
+            height: 100px;
+        }
+        table tr td{
+            width: 100px;
+            height: 100px;
+            background-color: rgb(180, 245, 255);
+        }
+        table,tr,td{
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+        table tr td img {
+            width: 90px;
+            height: 90px;
+        }
+        #btn1 {
+            display: none;
+            height: 40px;
+            width: 300px;
+            background-color: brown;
+            color: aliceblue;
+            font-size: large;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+    </style>
+    <script> 
+        var gamestatus = 1;
+        var turn = 0;
+        var state = [2,2,2,2,2,2,2,2,2];
+        var winposition = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [2,4,6]
+        ];
+        function tap(index, element)
+        {
+            if(state[element]==2 && gamestatus==1)
+                  {
+                      if (turn==0)
+                  {
+                      index.innerHTML = "<img src='o.png'/>";
+                      turn=1;
+                      state[element]=0;
+                  }
+                  else if(turn==1)
+                  {
+                      index.innerHTML = "<img src='x.png'/>";
+                      turn=0;
+                      state[element]=1;
+                  }
+            }
+            var winner = checkwinner();
+            if(winner==0)
+            {
+                h1.innerHTML = "O Player WON";
+                s1.play()
+                btn1.style.display="Block";
+                gamestatus = 0;
+                body.style.backgroundImage="url('Gif.gif')";
+                sound.play()
+            }
+            else if(winner==1)
+            {
+                h1.innerHTML = "X Player WON";
+                btn1.style.display="Block";
+                gamestatus = 0;
+                body.style.backgroundImage="url('Gif.gif')";
+                sound.play()
+            }
+            // Check Draw
+            if(!state.includes(2) && winner==2)
+            {
+                h1.innerHTML = "Game Draw";
+                btn1.style.display="Block";
+            }
+        }
+        function checkwinner()
+        {
+            var winner = 2;
+            for(x of winposition)
+            {
+                if(state[x[0]] == state[x[1]] && state[x[1]] == state[x[2]] && state[x[0]] != 2)
+                {
+                    winner = state[x[0]];
+                    break;
+                }
+            }
+            return winner;
+        }
+        function restartgame()
+        {
+            window.location.reload()
+        }
+    </script>
+</head>
+<body id="body">
+    <h1 id="h1"></h1>
+    <audio id="sound" src="mix.aac" ></audio>
+    <audio id="s1" src="mic.aac" ></audio>
+    <audio id="s2" src="" ></audio>
+    <table id="table">
+        <tr id="row">
+            <td onclick="tap(this,0)"></td>
+            <td onclick="tap(this,1)"></td>
+            <td onclick="tap(this,2)"></td>
+        </tr>
+        <tr>
+            <td onclick="tap(this,3)"></td>
+            <td onclick="tap(this,4)"></td>
+            <td onclick="tap(this,5)"></td>
+        </tr>
+        <tr>
+            <td onclick="tap(this,6)"></td>
+            <td onclick="tap(this,7)"></td>
+            <td onclick="tap(this,8)"></td>
+        </tr>
+    </table>
+    <center>
+           <button id="btn1" onclick="restartgame()">Restart Game</button>
+    </center>
+</body>
+</html>
